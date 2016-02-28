@@ -1,0 +1,180 @@
+'use strict';
+
+const test = require('ava'),
+      rewire = require('rewire'),
+      page = require('../index');
+
+const app = rewire('../index');
+
+test('.status() with http page is return page status', t => {
+  const url = 'http://example.com',
+        promise = page.status(url);
+
+  return promise.then(res => {
+    t.is(res.request, 'GET: http://example.com/');
+    t.is(res.response.statusCode, 200);
+    t.is(res.response.httpVersion, '1.1');
+    t.is(res.response.statusMessage, 'OK');
+    t.not(res.response.headers, null);
+  });
+});
+
+test('.status() with callback is return page status', t => {
+  const url = 'http://example.com',
+        cb = (res) => {
+          t.is(res.request, 'GET: http://example.com/');
+          t.is(res.response.statusCode, 200);
+          t.is(res.response.httpVersion, '1.1');
+          t.is(res.response.statusMessage, 'OK');
+          t.not(res.response.headers, null);
+        };
+
+  page.status(url, cb);
+});
+
+test('.tls() is return tls status', t => {
+  const url = 'https://example.com',
+        promise = page.tls(url);
+
+  return promise.then(res => {
+    t.not(res.subject, null);
+    t.is(typeof(res.subject), 'object');
+    t.not(res.issuer, null);
+    t.is(typeof(res.issuer), 'object');
+    t.not(res.valid_from, null);
+    t.is(typeof(res.valid_from), 'string');
+    t.not(res.valid_to, null);
+    t.is(typeof(res.valid_to), 'string');
+    t.not(res.infoAccess, null);
+    t.is(typeof(res.infoAccess), 'object');
+  });
+});
+
+test('.tls() with callback is return tls status', t => {
+  const url = 'https://example.com',
+        cb = (res) => {
+          t.not(res.subject, null);
+          t.is(typeof(res.subject), 'object');
+          t.not(res.issuer, null);
+          t.is(typeof(res.issuer), 'object');
+          t.not(res.valid_from, null);
+          t.is(typeof(res.valid_from), 'string');
+          t.not(res.valid_to, null);
+          t.is(typeof(res.valid_to), 'string');
+          t.not(res.infoAccess, null);
+          t.is(typeof(res.infoAccess), 'object');
+        };
+
+  page.tls(url, cb);
+});
+
+test('.meta() is return meta information', t => {
+  const url = 'https://example.com',
+        promise = page.meta(url);
+
+  return promise.then(res => {
+    t.not(res.title, null);
+    t.is(res.title, 'Example Domain');
+    t.not(res.charset, null);
+    t.is(res.charset, 'utf-8');
+    t.is(res.keywords, null);
+    t.is(res.description, null);
+  });
+});
+
+test('.meta() with callback is return meta information', t => {
+  const url = 'https://example.com',
+        cb = (res) => {
+          t.not(res.title, null);
+          t.is(res.title, 'Example Domain');
+          t.not(res.charset, null);
+          t.is(res.charset, 'utf-8');
+          t.is(res.keywords, null);
+          t.is(res.description, null);
+        };
+
+  page.meta(url, cb);
+});
+
+test('.getPort() is return port number', t => {
+  const getPort = app.__get__('getPort');
+
+  t.is(getPort('http'), 80);
+  t.is(getPort('https'), 443);
+});
+
+test('.httpRequest() is return page request result', t => {
+  const httpRequest = app.__get__('httpRequest');
+  const http = app.__get__('http');
+  const options = {
+    protocol: http,
+    port: 80,
+    method: 'GET',
+    hostname: 'example.com',
+    path: '/'
+  }
+
+  const promise = httpRequest(options);
+
+  return promise.then(res => {
+    t.is(typeof(res), 'object');
+    t.is(res.req._header, 'GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n');
+    t.is(res.statusCode, 200);
+    t.is(res.httpVersion, '1.1');
+    t.is(res.statusMessage, 'OK');
+  });
+});
+
+test('.requestOptions() is return option Object', t => {
+  const requestOptions = app.__get__('requestOptions'),
+        url = 'example.com',
+        opt = { path: '/test' }
+
+  const options = requestOptions(url, opt);
+
+  t.true(options.hasOwnProperty('protocol'));
+  t.true(options.protocol !== '');
+  t.true(options.protocol !== null);
+  t.is(options.port, 80);
+  t.is(options.method, 'GET');
+  t.is(options.hostname, 'example.com');
+  t.is(options.path, '/test');
+});
+
+test('.tlsInformation() is return page tls information', t => {
+  const tlsInformation = app.__get__('tlsInformation');
+  const options = {
+    port: 443,
+    method: 'GET',
+    hostname: 'example.com',
+    path: '/'
+  }
+
+  const promise = tlsInformation(options);
+
+  return promise.then(res => {
+    t.not(res.subject, null);
+    t.is(typeof(res.subject), 'object');
+    t.not(res.issuer, null);
+    t.is(typeof(res.issuer), 'object');
+    t.not(res.valid_from, null);
+    t.is(typeof(res.valid_from), 'string');
+    t.not(res.valid_to, null);
+    t.is(typeof(res.valid_to), 'string');
+    t.not(res.infoAccess, null);
+    t.is(typeof(res.infoAccess), 'object');
+  });
+});
+
+test('.getUrlInfo() is return info from request url', t => {
+  const getUrlInfo = app.__get__('getUrlInfo');
+  const requestUrl = 'example.com';
+  const info = getUrlInfo(requestUrl);
+
+  t.is(info.protocol, 'http');
+  t.is(info.host, 'example.com');
+  t.is(info.hostname, 'example.com');
+  t.is(info.pathname, '/');
+  t.is(info.path, '/');
+});
+

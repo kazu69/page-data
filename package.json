@@ -1,0 +1,31 @@
+{
+  "name": "page-data",
+  "version": "0.0.1",
+  "description": "simple site data check client",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint **/*.js",
+    "test": "$(npm bin)/nyc ava test/*.js"
+  },
+  "keywords": [
+    "website",
+    "page",
+    "status",
+    "state",
+    "http",
+    "status",
+    "tls",
+    "online",
+    "running",
+    "check"
+  ],
+  "author": "kazu69",
+  "license": "MIT",
+  "devDependencies": {
+    "nyc": "^5.6.0",
+    "rewire": "^2.5.1"
+  },
+  "dependencies": {
+    "cheerio": "^0.20.0"
+  }
+}
