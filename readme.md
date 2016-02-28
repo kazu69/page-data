@@ -143,6 +143,10 @@ page.mata('https://github.com', options, callback);
 */
 ```
 
+## Cli
+
+[page-data-cli](https://www.npmjs.com/package/page-data-cli)
+
 ## License
 
 MIT © kazu69
