@@ -1,6 +1,6 @@
 # page-data
 
-Simple domain infomation client.
+Simple page data client tool.
 
 ## install
 
@@ -17,8 +17,6 @@ const callback = (data, error) => {
 }
 
 page.status('example.com', callback)
-
-domain.groper('github.com', { type: ['A'] }, callback);
 /*
 { request: 'GET: http://example.com/',
   response:
@@ -57,7 +55,8 @@ promise.then(data => {
 
 ### status(url, [option, callback])
 
-GET request.
+Check whether the page is alive.
+Simple to only the HTTP GET request.
 
 ```js
 const page = require('page-data');
