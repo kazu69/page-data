@@ -1,6 +1,6 @@
 {
   "name": "page-data",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "simple page data get client tool",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
   "author": "kazu69",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.14.0",
+    "ava": "git://github.com/sindresorhus/ava.git",
     "eslint": "^2.2.0",
     "nyc": "^6.2.1",
     "rewire": "^2.5.1"
