@@ -250,7 +250,7 @@ module.exports.meta = (requestUrl, opts, cb) => {
             resolve(generateMetaResponse(html));
           });
         })
-        .catch(error => cb(null, error.message));
+        .catch(error => reject(error.message));
     });
   }
 }

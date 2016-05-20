@@ -96,6 +96,15 @@ test('.meta() with callback is return meta information', t => {
   page.meta(url, cb);
 });
 
+test('.meta() with callback is return error message', t => {
+  const url = 'https://93.184.216.34',
+        cb = (_, error) => {
+          t.is(error, 'Hostname/IP doesn\'t match certificate\'s altnames: "IP: 93.184.216.34 is not in the cert\'s list:"');
+        };
+
+  page.meta(url, cb);
+});
+
 test('.getPort() is return port number', t => {
   const getPort = app.__get__('getPort');
 
