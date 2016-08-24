@@ -36,6 +36,6 @@
     "rewire": "^2.5.1"
   },
   "dependencies": {
-    "cheerio": "^0.20.0"
+    "cheerio": "^0.22.0"
   }
 }
