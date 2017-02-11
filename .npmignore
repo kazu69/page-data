@@ -5,5 +5,8 @@ sample.js
 .gitignore
 .eslintrc
 .git/
-.test
+test
 .npmignore
+.nyc_output
+coverage
+
