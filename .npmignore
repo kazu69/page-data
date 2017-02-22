@@ -1,12 +1,12 @@
-example.js
-sample.js
 .travis.yml
 .eslintignore
 .gitignore
 .eslintrc
 .git/
-test
+.github/
 .npmignore
 .nyc_output
+test
 coverage
-
+example.js
+sample.js
