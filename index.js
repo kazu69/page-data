@@ -62,7 +62,7 @@ function tlsInformation(opts) {
     const callback = () => {
       socket.end();
       if(socket.authorized) {
-        resolve(socket.getPeerCertificate());
+        resolve(socket.getPeerCertificate(true));
       } else {
         reject(socket.authorizationError);
       }
@@ -71,7 +71,7 @@ function tlsInformation(opts) {
     const socket = tls.connect(
       opts.port,
       opts.hostname,
-      { path: opts.path },
+      { path: opts.path, servername: opts.servername },
       callback
     );
 

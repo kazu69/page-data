@@ -34,7 +34,8 @@ test('.status() with callback is return page status', t => {
 
 test('.tls() is return tls status', t => {
   const url = 'https://example.com',
-        promise = page.tls(url);
+        options = {servername: 'example.com'},
+        promise = page.tls(url, options);
 
   return promise.then(res => {
     t.not(res.subject, null);
@@ -52,6 +53,7 @@ test('.tls() is return tls status', t => {
 
 test('.tls() with callback is return tls status', t => {
   const url = 'https://example.com',
+        options = {servername: 'example.com'},
         cb = (res) => {
           t.not(res.subject, null);
           t.is(typeof(res.subject), 'object');
@@ -65,7 +67,7 @@ test('.tls() with callback is return tls status', t => {
           t.is(typeof(res.infoAccess), 'object');
         };
 
-  page.tls(url, cb);
+  page.tls(url, options, cb);
 });
 
 test('.meta() is return meta information', t => {
