@@ -30,12 +30,12 @@
   "author": "kazu69",
   "license": "MIT",
   "devDependencies": {
-    "ava": "git://github.com/sindresorhus/ava.git",
-    "eslint": "^3.16.0",
-    "nyc": "^10.1.2",
+    "ava": "^0.21.0",
+    "eslint": "^4.2.0",
+    "nyc": "^11.0.3",
     "rewire": "^2.5.1"
   },
   "dependencies": {
-    "cheerio": "^0.22.0"
+    "cheerio": "^1.0.0-rc.2"
   }
 }
