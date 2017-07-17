@@ -94,7 +94,7 @@ page.status('https://github.com', options, callback);
 */
 ```
 
-### meta(url, [option, callback])
+### tls(url, [option, callback])
 
 GET tls information.
 
