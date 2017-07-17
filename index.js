@@ -98,9 +98,11 @@ function generateTlsResponse(res) {
   return {
     subject: res.subject,
     issuer: res.issuer,
+    subjectaltname: res.subjectaltname,
     valid_from: res.valid_from,
     valid_to: res.valid_to,
-    infoAccess: res.infoAccess
+    infoAccess: res.infoAccess,
+    serialNumber: res.serialNumber
   };
 }
 
