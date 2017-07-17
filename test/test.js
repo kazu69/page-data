@@ -50,7 +50,7 @@ test('.tls() is return tls status', t => {
     t.not(res.infoAccess, null);
     t.is(typeof(res.infoAccess), 'object');
     t.not(res.subjectaltname, null);
-    t.is(typeof(res.subjectaltname), 'string');
+    t.is(typeof(res.subjectaltname), 'object');
     t.not(res.serialNumber, null);
     t.is(typeof(res.serialNumber), 'string');
   });
@@ -71,7 +71,7 @@ test.cb('.tls() with callback is return tls status', t => {
           t.not(res.infoAccess, null);
           t.is(typeof(res.infoAccess), 'object');
           t.not(res.subjectaltname, null);
-          t.is(typeof(res.subjectaltname), 'string');
+          t.is(typeof(res.subjectaltname), 'object');
           t.not(res.serialNumber, null);
           t.is(typeof(res.serialNumber), 'string');
           t.end();

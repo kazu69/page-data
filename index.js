@@ -95,10 +95,13 @@ function geneerateStateResponse(res) {
 }
 
 function generateTlsResponse(res) {
+  const sans = res.subjectaltname.split(',')
+                                  .map(v => v.replace(/DNS\:/, ''))
+                                  .filter(v => v !== '')
   return {
     subject: res.subject,
     issuer: res.issuer,
-    subjectaltname: res.subjectaltname,
+    subjectaltname: sans,
     valid_from: res.valid_from,
     valid_to: res.valid_to,
     infoAccess: res.infoAccess,
