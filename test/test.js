@@ -19,22 +19,24 @@ test('.status() with http page is return page status', t => {
   });
 });
 
-test('.status() with callback is return page status', t => {
+test.cb('.status() with callback is return page status', t => {
   const url = 'http://example.com',
-        cb = (res) => {
+        cb = res => {
           t.is(res.request, 'GET: http://example.com/');
           t.is(res.response.statusCode, 200);
           t.is(res.response.httpVersion, '1.1');
           t.is(res.response.statusMessage, 'OK');
           t.not(res.response.headers, null);
-        };
+          t.end();
+        }
 
   page.status(url, cb);
 });
 
 test('.tls() is return tls status', t => {
   const url = 'https://example.com',
-        promise = page.tls(url);
+        options = {servername: 'example.com'},
+        promise = page.tls(url, options);
 
   return promise.then(res => {
     t.not(res.subject, null);
@@ -47,12 +49,17 @@ test('.tls() is return tls status', t => {
     t.is(typeof(res.valid_to), 'string');
     t.not(res.infoAccess, null);
     t.is(typeof(res.infoAccess), 'object');
+    t.not(res.subjectaltname, null);
+    t.is(typeof(res.subjectaltname), 'string');
+    t.not(res.serialNumber, null);
+    t.is(typeof(res.serialNumber), 'string');
   });
 });
 
-test('.tls() with callback is return tls status', t => {
+test.cb('.tls() with callback is return tls status', t => {
   const url = 'https://example.com',
-        cb = (res) => {
+        options = {servername: 'example.com'},
+        cb = res => {
           t.not(res.subject, null);
           t.is(typeof(res.subject), 'object');
           t.not(res.issuer, null);
@@ -63,9 +70,14 @@ test('.tls() with callback is return tls status', t => {
           t.is(typeof(res.valid_to), 'string');
           t.not(res.infoAccess, null);
           t.is(typeof(res.infoAccess), 'object');
-        };
+          t.not(res.subjectaltname, null);
+          t.is(typeof(res.subjectaltname), 'string');
+          t.not(res.serialNumber, null);
+          t.is(typeof(res.serialNumber), 'string');
+          t.end();
+        }
 
-  page.tls(url, cb);
+  page.tls(url, options, cb);
 });
 
 test('.meta() is return meta information', t => {
@@ -82,7 +94,7 @@ test('.meta() is return meta information', t => {
   });
 });
 
-test('.meta() with callback is return meta information', t => {
+test.cb('.meta() with callback is return meta information', t => {
   const url = 'https://example.com',
         cb = (res) => {
           t.not(res.title, null);
@@ -91,15 +103,17 @@ test('.meta() with callback is return meta information', t => {
           t.is(res.charset, 'utf-8');
           t.is(res.keywords, null);
           t.is(res.description, null);
+          t.end();
         };
 
   page.meta(url, cb);
 });
 
-test('.meta() with callback is return error message', t => {
+test.cb('.meta() with callback is return error message', t => {
   const url = 'https://93.184.216.34',
         cb = (_, error) => {
-          t.is(error, 'Hostname/IP doesn\'t match certificate\'s altnames: "IP: 93.184.216.34 is not in the cert\'s list:"');
+          t.is(error, 'Hostname/IP doesn\'t match certificate\'s altnames: "IP: 93.184.216.34 is not in the cert\'s list: "');
+          t.end()
         };
 
   page.meta(url, cb);
@@ -186,4 +200,3 @@ test('.getUrlInfo() is return info from request url', t => {
   t.is(info.pathname, '/');
   t.is(info.path, '/');
 });
-
