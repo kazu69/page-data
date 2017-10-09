@@ -62,13 +62,18 @@ function tlsInformation(opts) {
     const callback = () => {
       socket.end();
 
-      const peerCertificate = socket.getPeerCertificate(true)
-
-      if(socket.authorized || Object.keys(peerCertificate).length !== 0) {
+      const peerCertificate = socket.getPeerCertificate(true);
+      if(Object.keys(peerCertificate).length !== 0) {
         resolve(peerCertificate);
-      } else {
-        reject(socket.authorizationError);
+        return;
       }
+  
+      if(!socket.authorized) {
+        reject(socket.authorizationError);
+        return;
+      }
+
+      throw new Error('tls socket connection error');
     }
 
     const _op = {};
