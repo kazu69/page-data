@@ -61,17 +61,27 @@ function tlsInformation(opts) {
 
     const callback = () => {
       socket.end();
-      if(socket.authorized) {
-        resolve(socket.getPeerCertificate(true));
+
+      const peerCertificate = socket.getPeerCertificate(true)
+
+      if(socket.authorized || Object.keys(peerCertificate).length !== 0) {
+        resolve(peerCertificate);
       } else {
         reject(socket.authorizationError);
+      }
+    }
+
+    const _op = {};
+    for(var i in opts) {
+      if (i !== 'port' || i !== 'hostname') {
+        _op[i] = opts[i];
       }
     }
 
     const socket = tls.connect(
       opts.port,
       opts.hostname,
-      { path: opts.path, servername: opts.servername },
+      _op,
       callback
     );
 
@@ -97,10 +107,12 @@ function geneerateStateResponse(res) {
 function generateTlsResponse(res) {
   const sans = res.subjectaltname.split(',')
                                   .map(v => v.replace(/DNS\:/, ''))
-                                  .filter(v => v !== '')
+                                  .filter(v => v !== '');
   return {
     subject: res.subject,
     issuer: res.issuer,
+    infoAccess: res.infoAccess,
+    issuerCertificate: res.issuerCertificate,
     subjectaltname: sans,
     valid_from: res.valid_from,
     valid_to: res.valid_to,

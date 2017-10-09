@@ -35,7 +35,10 @@ test.cb('.status() with callback is return page status', t => {
 
 test('.tls() is return tls status', t => {
   const url = 'https://example.com',
-        options = {servername: 'example.com'},
+        options = {
+          servername: 'example.com',
+          rejectUnauthorized: false
+        },
         promise = page.tls(url, options);
 
   return promise.then(res => {
@@ -43,7 +46,10 @@ test('.tls() is return tls status', t => {
     t.is(typeof(res.subject), 'object');
     t.not(res.issuer, null);
     t.is(typeof(res.issuer), 'object');
-    t.not(res.valid_from, null);
+    t.not(res.infoAccess, null);
+    t.is(typeof(res.infoAccess), 'object');
+    t.not(res.issuerCertificate, null);
+    t.is(typeof(res.issuerCertificate), 'object');
     t.is(typeof(res.valid_from), 'string');
     t.not(res.valid_to, null);
     t.is(typeof(res.valid_to), 'string');
@@ -58,12 +64,19 @@ test('.tls() is return tls status', t => {
 
 test.cb('.tls() with callback is return tls status', t => {
   const url = 'https://example.com',
-        options = {servername: 'example.com'},
+        options = {
+          servername: 'example.com',
+          rejectUnauthorized: false,
+        },
         cb = res => {
           t.not(res.subject, null);
           t.is(typeof(res.subject), 'object');
           t.not(res.issuer, null);
           t.is(typeof(res.issuer), 'object');
+          t.not(res.infoAccess, null);
+          t.is(typeof(res.infoAccess), 'object');
+          t.not(res.issuerCertificate, null);
+          t.is(typeof(res.issuerCertificate), 'object');
           t.not(res.valid_from, null);
           t.is(typeof(res.valid_from), 'string');
           t.not(res.valid_to, null);
