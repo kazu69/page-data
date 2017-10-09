@@ -30,9 +30,9 @@
   "author": "kazu69",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.21.0",
-    "eslint": "^4.2.0",
-    "nyc": "^11.0.3",
+    "ava": "^0.22.0",
+    "eslint": "^4.8.0",
+    "nyc": "^11.2.1",
     "rewire": "^2.5.1"
   },
   "dependencies": {
