@@ -49,6 +49,7 @@ function requestOptions(url, opts) {
     protocol: method,
     port: getPort(urlInfo.protocol),
     method: 'GET',
+    host: urlInfo.hostname,
     hostname: urlInfo.hostname,
     path: urlInfo.pathname
   };
@@ -61,7 +62,6 @@ function tlsInformation(opts) {
 
     const callback = () => {
       socket.end();
-
       const peerCertificate = socket.getPeerCertificate(true);
       if(Object.keys(peerCertificate).length !== 0) {
         resolve(peerCertificate);
@@ -77,12 +77,11 @@ function tlsInformation(opts) {
     }
 
     const _op = {};
-    for(var i in opts) {
+    for(let i in opts) {
       if (i !== 'port' || i !== 'hostname') {
         _op[i] = opts[i];
       }
     }
-
     const socket = tls.connect(
       opts.port,
       opts.hostname,
@@ -90,7 +89,7 @@ function tlsInformation(opts) {
       callback
     );
 
-    socket.on('error', (error) => {
+    socket.on('error', error => {
       reject(error);
     });
   });
@@ -172,9 +171,12 @@ module.exports.tls = (requestUrl, opts, cb) => {
     opts = {};
   }
 
-  let defaults = requestOptions(requestUrl, { protocol: 'https', port: 443, });
-  delete defaults.method;
-
+  let defaults = requestOptions(requestUrl, { port: 443, });
+  ['method', 'path'].map(v => {
+    if (defaults[v]) {
+      delete defaults[v]
+    }
+  });
   const options = Object.assign(defaults, opts);
   const promise = tlsInformation(options);
 
