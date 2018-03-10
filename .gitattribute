@@ -1,0 +1,11 @@
+.travis.yml export-ignore
+.eslintignore export-ignore
+.gitignore export-ignore
+.eslintrc export-ignore
+.git export-ignore
+.github export-ignore
+.npmignore export-ignore
+.nyc_output export-ignore
+.gitattributes export-ignore
+test export-ignore
+coverage export-ignore

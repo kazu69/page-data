@@ -182,8 +182,7 @@ test('.tlsInformation() is return page tls information', t => {
   const options = {
     port: 443,
     method: 'GET',
-    hostname: 'example.com',
-    path: '/'
+    host: 'example.com',
   }
 
   const promise = tlsInformation(options);

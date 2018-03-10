@@ -2,10 +2,11 @@
 .eslintignore
 .gitignore
 .eslintrc
-.git/
-.github/
+.git
+.github
 .npmignore
 .nyc_output
+.gitattributes
 test
 coverage
 example.js
