@@ -125,7 +125,7 @@ test.cb('.meta() with callback is return meta information', t => {
 test.cb('.meta() with callback is return error message', t => {
   const url = 'https://93.184.216.34',
         cb = (_, error) => {
-          t.is(error, 'Hostname/IP does not match certificate\'s altnames: IP: 93.184.216.34 is not in the cert\'s list: ');
+          t.is(error, 'Hostname/IP doesn\'t match certificate\'s altnames: "IP: 93.184.216.34 is not in the cert\'s list: "');
           t.end()
         };
 
